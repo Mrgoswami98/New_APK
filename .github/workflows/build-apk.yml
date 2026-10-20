@@ -22,6 +22,12 @@ jobs:
           rm -rf src/HDVideoPlayer/.gradle
           ls -R src/HDVideoPlayer | head -50
 
+      # Media3 1.4.x BaseGlShaderProgram.configure() returns androidx.media3.common.util.Size
+      - name: Patch Size import
+        run: |
+          sed -i 's/^import android.util.Size$/import androidx.media3.common.util.Size/' src/HDVideoPlayer/app/src/main/java/com/oakcraft/hdplayer/enhance/*ShaderProgram.kt
+          grep -n 'import .*Size' src/HDVideoPlayer/app/src/main/java/com/oakcraft/hdplayer/enhance/*ShaderProgram.kt
+
       - name: Set up JDK 17
         uses: actions/setup-java@v5
         with:
